@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { environment } from '@src/environments/environment';
-import { test } from '@app/test';
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +8,13 @@ import { test } from '@app/test';
 })
 export class AppComponent {
   title = 'course-app';
+
+  constructor(private afs: AngularFirestore) {
+  }
+
+  ngOnInit() {
+    this.afs.collection('test').snapshotChanges().subscribe(items => {
+      console.log(items.map(x => x.payload.doc.data()));
+    });
+  }
 }
